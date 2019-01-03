@@ -1,0 +1,7 @@
+github.com/atotto/clipboard v0.1.1 h1:WSoEbAS70E5gw8FbiqFlp69MGsB6dUb4l+0AGGLiVGw=
+github.com/atotto/clipboard v0.1.1/go.mod h1:ZY9tmq7sm5xIbd9bOK4onWV4S6X0u6GY7Vn0Yu86PYI=
+github.com/mbnuqw/con-go v0.0.0-20181126080452-80c363c65812 h1:eCPexldsaAi2hXT58c7U9bZZS9g7RFyqBQ1SNKY+OII=
+github.com/mbnuqw/con-go v0.0.0-20181126080452-80c363c65812/go.mod h1:U9s8LL+E+NM+bc6jN+mlPiHC9ESExAwQSzH9Gdof4DE=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+gopkg.in/yaml.v2 v2.2.2 h1:ZCJp+EgiOT7lHqUV2J862kp8Qj64Jo6az82+3Td9dZw=
+gopkg.in/yaml.v2 v2.2.2/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
