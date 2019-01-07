@@ -1,73 +1,66 @@
 package main
 
 import (
-	"encoding/json"
+	"bytes"
 	"fmt"
+	"math/rand"
 	"strconv"
+	"time"
 
+	"github.com/atotto/clipboard"
 	con "github.com/mbnuqw/con-go"
 )
 
-type genSecretArgs struct {
-	Name  string            `json:"name"`
-	Login string            `json:"login,omitempty"`
-	URL   string            `json:"url,omitempty"`
-	Len   int               `json:"len,omitempty"`
-	Keys  map[string]string `json:"keys,omitempty"`
-}
-
-type genSecretAns struct {
-	Secret []byte `json:"secret,omitempty"`
-	Error  string `json:"error,omitempty"`
+var passAlph = [55]rune{
+	'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'x',
+	'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'z',
+	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L',
+	'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+	'2', '3', '4', '5', '6', '7', '8', '9', 'Y', 'Z', 'y',
 }
 
 // Command gen
 func onGen(c *con.Client, args []string) {
-	if len(args) < 2 {
+	if len(args) < 1 {
 		fmt.Printf(wrongInMsg() + usageMsg() + commandGenMsg())
 		return
 	}
 
-	secretName := args[0]
-	var secretURL string
-	var secretLogin string
-	var secretLen int
+	switch {
+	case args[0] == "pass":
+		genPass(c, args[1:])
+	default:
+		fmt.Printf(wrongInMsg() + usageMsg() + commandGenMsg())
+		return
+	}
+}
+
+// Generate password and put it in clipboard
+func genPass(c *con.Client, args []string) {
+	// Get desired pass-len
+	var passLen int
 	var err error
-	if len(args) == 2 {
-		secretLen, err = strconv.Atoi(args[1])
+	if len(args) > 0 {
+		passLen, err = strconv.Atoi(args[len(args)-1])
+		if err != nil || passLen < 1 {
+			passLen = 12
+		}
+	} else {
+		passLen = 12
 	}
-	if len(args) == 3 {
-		secretURL = args[1]
-		secretLen, err = strconv.Atoi(args[2])
+
+	// Generate password
+	var password bytes.Buffer
+	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < passLen; i++ {
+		rd := rnd.Uint32()
+		password.WriteRune(passAlph[rd%55])
 	}
-	if len(args) == 4 {
-		secretURL = args[1]
-		secretLogin = args[2]
-		secretLen, err = strconv.Atoi(args[3])
-	}
+
+	// Put value in clipboard
+	err = clipboard.WriteAll(password.String())
 	if err != nil {
-		fmt.Printf(wrongInMsg() + usageMsg() + commandGenMsg())
+		PrintError("Cannot put value in clipboard")
 		return
 	}
-	// TODO text keys...
-	textKeys := map[string]string{}
-
-	argsJSON, err := json.Marshal(genSecretArgs{
-		Name:  secretName,
-		URL:   secretURL,
-		Login: secretLogin,
-		Len:   secretLen,
-		Keys:  textKeys,
-	})
-
-	ansChan := make(chan con.Msg, 1)
-	go c.Req("gen-secret", argsJSON, ansChan)
-	ansJSON := <-ansChan
-	var ans genSecretAns
-	err = json.Unmarshal(ansJSON.Body, &ans)
-	if err != nil {
-		fmt.Println(" → Something goes wrong")
-		return
-	}
-	fmt.Println(" → gen", ans)
 }

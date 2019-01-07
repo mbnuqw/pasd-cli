@@ -26,8 +26,8 @@ func commandAddMsg() string {
     |c>key |g><Name>[:<Group>] [Path]|_> - add new key
       |_>pasd key Master - add password key
       |_>pasd key Some /path/to/key - add file key
-      |_>pasd key A:Common abc ┬─ add grouped keys
-      |_>pasd key B:Common xyz ┘
+      |_>pasd key A:Common ┬─ add grouped keys
+      |_>pasd key B:Common ┘
 
     |c>secret|g> <Name> [URL] [Login]|_> - add new secret
       |_>pasd secret Example example.com login
@@ -46,7 +46,7 @@ func commandRemoveMsg() string {
 
 func commandGetMsg() string {
 	return WithColors(`
-    |g><Search query> [ / <KeyName> <KeyValue>]|_> - get some secret
+    |g><Search query>|_> - get some secret
       |_>pasd login gmail
       |_>pasd goo / Master 123 AnotherKey 456
 `)
@@ -54,11 +54,7 @@ func commandGetMsg() string {
 
 func commandGenMsg() string {
 	return WithColors(`
-    |c>gen|g> <Name> [URL] [Login] <Length>|_> - generate password with
-                                        given length and save new secret
-      |_>pasd gen Google 12
-      |_>pasd gen Github github.com 16
-      |_>pasd gen Reddit reddit.com login 8
+    |c>gen pass|g> <Length>|_> - generate password with given length
 `)
 }
 

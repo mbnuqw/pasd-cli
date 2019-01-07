@@ -42,7 +42,7 @@ func main() {
 	case len(args) > 1 && args[0] == "remove":
 		onRemove(&client, args[1:])
 
-	case len(args) > 1 && args[0] == "gen":
+	case args[0] == "gen":
 		onGen(&client, args[1:])
 
 	default:

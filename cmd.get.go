@@ -82,6 +82,10 @@ func onGet(c *con.Client, args []string) {
 	// Write secret to file
 	if outputFilePath != "" {
 		err = ioutil.WriteFile(outputFilePath, ans.Secret, 0600)
+		if err != nil {
+			PrintError("Cannot write file")
+			return
+		}
 		fmt.Println(WithColors("|g>✔ Secret saved to file|x|"))
 		return
 	}
@@ -94,6 +98,10 @@ func onGet(c *con.Client, args []string) {
 			return
 		}
 		err = clipboard.WriteAll(string(ans.Secret))
+		if err != nil {
+			PrintError("Cannot put value in clipboard")
+			return
+		}
 		fmt.Println(WithColors("|g>✔ Secret in clipboard|x|"))
 	}
 }
