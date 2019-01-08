@@ -26,20 +26,20 @@ func main() {
 	switch {
 	case len(args) == 0:
 		onHelp()
-	case len(args) == 1 && args[0] == "help":
+	case args[0] == "help":
 		onHelp()
 
-	case len(args) == 1 && args[0] == "keys":
+	case args[0] == "keys":
 		listKeys(&client, args[1:])
-	case len(args) == 1 && args[0] == "secrets":
+	case args[0] == "secrets":
 		listSecrets(&client, args[1:])
 
-	case len(args) > 1 && args[0] == "key":
+	case args[0] == "key":
 		addKey(&client, args[1:])
-	case len(args) > 1 && args[0] == "secret":
+	case args[0] == "secret":
 		addSecret(&client, args[1:])
 
-	case len(args) > 1 && args[0] == "remove":
+	case args[0] == "remove":
 		onRemove(&client, args[1:])
 
 	case args[0] == "gen":
