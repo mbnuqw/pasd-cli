@@ -62,6 +62,10 @@ func listKeys(c *con.Client, args []string) {
 		PrintError(err.Error())
 		return
 	}
+	if ans.Error != "" {
+		PrintError(ans.Error)
+		return
+	}
 
 	if len(ans.Keys) == 0 {
 		fmt.Println("")
@@ -109,6 +113,10 @@ func listSecrets(c *con.Client, args []string) {
 	err := json.Unmarshal(ansMsg.Body, &ans)
 	if err != nil {
 		PrintError(err.Error())
+		return
+	}
+	if ans.Error != "" {
+		PrintError(ans.Error)
 		return
 	}
 
