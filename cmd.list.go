@@ -21,6 +21,7 @@ type listKeysAns struct {
 }
 
 type listedSecret struct {
+	ID    string `json:"id"`
 	Type  string `json:"type"`
 	Name  string `json:"name"`
 	URL   string `json:"url"`
@@ -127,10 +128,10 @@ func listSecrets(c *con.Client, args []string) {
 	}
 
 	fmt.Println("")
-	fmt.Printf(WithColors("|B>|w> %-16s  %-13s  %-20s  %-19s|x|\n"), "Date", "Name", "URL", "Login")
+	fmt.Printf(WithColors("|B>|w> %-16s  %-3s  %-13s  %-20s  %-19s|x|\n"), "Date", "ID", "Name", "URL", "Login")
 	for i := range ans.Secrets {
 		s := ans.Secrets[i]
 		date := time.Unix(s.Date, 0).Format("2006.01.02 15:04")
-		fmt.Printf(WithColors("|_> %-16s  |g>%-13s  %-20s  %-19s|x|\n"), date, s.Name, s.URL, s.Login)
+		fmt.Printf(WithColors("|_> %-16s  |b>%-3s  |g>%-13s  %-20s  %-19s|x|\n"), date, s.ID[:3], s.Name, s.URL, s.Login)
 	}
 }
