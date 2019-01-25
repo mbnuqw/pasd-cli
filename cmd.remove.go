@@ -8,7 +8,7 @@ import (
 )
 
 type removeSecretArgs struct {
-	Name      string            `json:"name"`
+	Query     []string          `json:"query"`
 	Passwords map[string]string `json:"passwords"`
 }
 
@@ -115,7 +115,7 @@ func removeSecret(c *con.Client, args []string) {
 
 	// Prepare arguments
 	argsJSON, err := json.Marshal(removeSecretArgs{
-		Name:      args[0],
+		Query:     args,
 		Passwords: passValues,
 	})
 	if err != nil {
